@@ -4,37 +4,46 @@ import sys
 pygame.init()
 
 #setting up window
-width, height = 800, 600
+width, height = 1280, 720
 window_dimensions = width, height
 screen = pygame.display.set_mode(window_dimensions)
 pygame.display.set_caption("Simulador de Chamba")
 my_icon = pygame.image.load("./img/pxArt.png")
 pygame.display.set_icon(my_icon)
 
-#main menu functions
+#ordering functions
 def order_height(pos, n):
   return (height - (n*50 + (n - 1)*20))/2 + (pos + ((pos-1)*70))
 
 #main menu options
 options = [
-  ['play', pygame.Rect((30, order_height(1, 5), 300, 50))],
-  ['achievements', pygame.Rect((30, order_height(2, 5), 300, 50))],
-  ['tutorial', pygame.Rect((30, order_height(3, 5), 300, 50))],
-  ['options', pygame.Rect((30, order_height(4, 5), 300, 50))],
-  ['close', pygame.Rect((30, order_height(5, 5), 300, 50))]
+  ['play', pygame.Rect((20, order_height(1, 5), 200, 50))],
+  ['achievements', pygame.Rect((20, order_height(2, 5), 200, 50))],
+  ['tutorial', pygame.Rect((20, order_height(3, 5), 200, 50))],
+  ['options', pygame.Rect((20, order_height(4, 5), 200, 50))],
+  ['close', pygame.Rect((20, order_height(5, 5), 200, 50))]
 ]
 font = pygame.font.Font(None, 36)
 
 click = False
+
+def show_options():
+  for option in options:
+    option.append(pygame.image.load('./buttons/img.jpeg'))
+    option[1].size = option[2].get_size()
+    option[1].center = option[1].center
+    pygame.draw.rect(screen, ('#5b6ee1'), option[1])
+    text = font.render(option[0], True, (0, 0, 0))
+    text_rect = text.get_rect(center=option[1].center)
+    screen.blit(option[2], option[1])
+    screen.blit(text, text_rect)
+
 def main_menu():
   running = True
+  show_options()
   while running:
-
+    global options
     for option in options:
-      pygame.draw.rect(screen, (255, 255, 255), option[1])
-      text = font.render(option[0], True, (0, 0, 0))
-      text_rect = text.get_rect(center=option[1].center)
-      screen.blit(text, text_rect)
       if pygame.mouse.get_pressed():
         if option[1].collidepoint(pygame.mouse.get_pos()) and click:
           if option[0] == 'play':
