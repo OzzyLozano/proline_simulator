@@ -3,29 +3,20 @@ import sys
 
 pygame.init()
 
-#setting up window
+# setting up
+# window
 width, height = 1280, 720
 window_dimensions = width, height
 screen = pygame.display.set_mode(window_dimensions)
 pygame.display.set_caption("Simulador de Chamba")
 my_icon = pygame.image.load("./img/pxArt.png")
 pygame.display.set_icon(my_icon)
+# font
+font = pygame.font.Font('./font/BPdots/BPdotsSquareBold.otf', 24)
 
-#ordering functions
+# functions
 def order_height(pos, n):
   return (height - (n*50 + (n - 1)*20))/2 + (pos + ((pos-1)*70))
-
-#main menu options
-options = [
-  ['play', pygame.Rect((20, order_height(1, 5), 200, 50))],
-  ['achievements', pygame.Rect((20, order_height(2, 5), 200, 50))],
-  ['tutorial', pygame.Rect((20, order_height(3, 5), 200, 50))],
-  ['options', pygame.Rect((20, order_height(4, 5), 200, 50))],
-  ['close', pygame.Rect((20, order_height(5, 5), 200, 50))]
-]
-font = pygame.font.Font(None, 36)
-
-click = False
 
 def show_options():
   for option in options:
@@ -38,6 +29,17 @@ def show_options():
     screen.blit(option[2], option[1])
     screen.blit(text, text_rect)
 
+# main menu buttons
+options = [
+  ['play', pygame.Rect((20, order_height(1, 5), 200, 50))],
+  ['achievements', pygame.Rect((20, order_height(2, 5), 200, 50))],
+  ['tutorial', pygame.Rect((20, order_height(3, 5), 200, 50))],
+  ['options', pygame.Rect((20, order_height(4, 5), 200, 50))],
+  ['close', pygame.Rect((20, order_height(5, 5), 200, 50))]
+]
+
+click = False
+
 def main_menu():
   running = True
   show_options()
@@ -48,14 +50,19 @@ def main_menu():
         if option[1].collidepoint(pygame.mouse.get_pos()) and click:
           if option[0] == 'play':
             game()
+            click = False
           elif option[0] == 'achievements':
             achievements()
+            click = False
           elif option[0] == 'tutorial':
             tutorial()
+            click = False
           elif option[0] == 'options':
             config()
+            click = False
           elif option[0] == 'close':
             close()
+            click = False
 
     click = False
     for event in pygame.event.get():
